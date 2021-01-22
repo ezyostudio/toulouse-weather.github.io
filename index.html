@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="shortcut icon" href="./sunny weather.ico" type="image/x-icon">
+    <title>WTWL?</title>
+</head>
+
+<body>
+    <div id="app">
+        <div v-show="isMobile" id="mobile">
+            <header>
+                <h1 class="time">{{time}}</h1>
+                <p class="city">{{city}}</p>
+            </header>
+            <div class="current-weather">
+                <div class="icon"><img src="" alt="" class="current-icon"></div>
+                <h1 class="current-temp">{{currentTemp}}</h1>
+            </div>
+            <div class="forecast-weather">
+                <div class="mini day date1">
+                    <p></p>
+                </div>
+                <div class="mini day date2">
+                    <p></p>
+                </div>
+                <div class="mini day date3">
+                    <p></p>
+                </div>
+                <div class="mini day date4">
+                    <p></p>
+                </div>
+                <div class="mini forecast1"><img src="" alt=""></div>
+                <div class="mini forecast2"><img src="" alt=""></div>
+                <div class="mini forecast3"><img src="" alt=""></div>
+                <div class="mini forecast4"><img src="" alt=""></div>
+                <div class="forecast forecast-temp1">
+                    <p></p>
+                </div>
+                <div class="forecast forecast-temp2">
+                    <p></p>
+                </div>
+                <div class="forecast forecast-temp3">
+                    <p></p>
+                </div>
+                <div class="forecast forecast-temp4">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="desktop" v-show="isDesktop">
+            <div class="desktop-content">
+                <div class="desktop-header">
+                    <p class="desktop-city">{{city}}</p>
+                    <div class="desktop-current-weather">
+                        <img src="" alt="" class="desktop-icon">
+                        <h1 class="desktop-current-temp ">{{currentTemp}}</h1>
+                    </div>
+                    <h2 class="desktop-description">{{description}}</h2>
+                    <div class="secondary-stat">
+                        <p>Humidité: &nbsp {{humidity}} %</p>
+                        <p>Vent: &nbsp {{wind}} km/h</p>
+                    </div>
+                    <div class="temp-stat">
+                        <p>Min: &nbsp {{minTemp}}°</p>
+                        <p>Ressenti: &nbsp {{feelsTemp}}°</p>
+                        <p>Max: &nbsp {{maxTemp}}°</p>
+                    </div>
+                </div>
+
+        <div class="canvas-size">
+            <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+
+        
+
+
+                <div class="desktop-forecast-weather">
+                    <h3>Cette Semaine:</h3>
+                    <div class="desktop-forecast-grid">
+                        <div v-for="day in forecast" :key="day.date" class="desktop-forecast desktop-forecast-grid-content">
+                            <h4>{{day.date}}</h4>
+                            <div class="desktop-img-frame">
+                                <img :src="'./weather-vector-icons/'+day.icon+'.svg'" alt="" class="desktop-forecast-img">
+                            </div>
+                            <div class="all-range-temp desktop-forecast0-temp">
+                                <h4 class="approximate-temp0">{{day.temp}}°</h4>
+                                <p class="range-temp0">{{day.minTemp}}° / {{day.maxTemp}}°</p>
+                            </div>
+                            <p class="desktop-description-forecast0">{{day.description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="vue.js"></script>
+    <script src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+    <script>
+        Chart.defaults.global.legend.display = false;
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['23:00', '00:00', '01:00', '02:00', '03:00', '04:00'],
+                datasets: [{
+                    data: [12, 11, 8, 10, 9, 10],
+                    backgroundColor: [
+                        'rgba(255, 255, 255, 0.1)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 255, 255, 0.3)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
+                        }
+                    }]
+                },
+                padding: {
+                    left: 500,
+                    right: 500,
+                    top: 500,
+                    bottom: 500,
+                }
+            }
+        });
+    </script>
+</body>
+
+
+</html>
