@@ -1,18 +1,6 @@
 
-
-let lat = 43.6043056
-let long = 1.4446944444444445
-
-if ("geolocation" in navigator) {
-  console.log("yes")
-  navigator.geolocation.getCurrentPosition(function(position) {
-    lat = position.coords.latitude;
-    long = position.coords.longitude;
-  });
-}
-
-console.log(lat, long)
-
+var lat = 43.6043056
+var long = 1.4446944444444445
 
 var app = new Vue({
   el: '#app',
@@ -245,6 +233,8 @@ var app = new Vue({
         return "Ciel Couvert"
       } else if (desc == "heavy intensity rain") {
         return "Forte Pluie"
+      } else if (desc == "scattered clouds") {
+        return "Nuages Dispersés"
       } else {
         return desc
       }
