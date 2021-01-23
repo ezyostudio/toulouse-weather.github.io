@@ -18,7 +18,9 @@ var app = new Vue({
     feelsTemp: "-",
     maxTemp: "-",
     description: "Description",
-    forecast: []
+    forecast: [],
+    hours: [],
+    refreshTime:""
   },
   mounted: function () {
     this.getData()
@@ -36,7 +38,7 @@ var app = new Vue({
 
 
       const current = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${key}`
-      const forecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely,hourly&units=metric&appid=${key}`
+      const forecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${key}`
       fetch(current)
         .then(response => {
           return response.json();
@@ -97,6 +99,61 @@ var app = new Vue({
               description: this.traduction(day.weather[0].description)
             }
           })
+
+          this.hours = data.hourly.map((hour) => {
+            const time = new Date(hour.dt * 1000).toLocaleTimeString("fr-FR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+
+            return {
+              time: time,
+              temp: Math.round(hour.temp)
+            }
+          })
+          // Creating the chart
+          Chart.defaults.global.legend.display = false;
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [this.hours[1].time, this.hours[2].time, this.hours[3].time, this.hours[4].time, this.hours[5].time],
+                datasets: [{
+                    data: [this.hours[1].temp, this.hours[2].temp, this.hours[3].temp, this.hours[4].temp, this.hours[5].temp],
+                    backgroundColor: [
+                        'rgba(255, 255, 255, 0.1)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 255, 255, 0.3)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
+                        }
+                    }]
+                },
+                padding: {
+                    left: 500,
+                    right: 500,
+                    top: 500,
+                    bottom: 500,
+                }
+            }
+        });
 
           //Get Time
           const dt = data.current.dt
@@ -181,6 +238,13 @@ var app = new Vue({
       } else {
         return desc
       }
+    },
+    refresh: function () {
+      while (x != 100) {
+        refreshTime=new Date().toLocaleTimeString("fr-FR")
+        setTimeout(1000)
+      }
+      
     },
     resize: (self)=>{
       if (screen.width < 1012) {
