@@ -1,7 +1,17 @@
 
 
-const lat = 43.6043056
-const long = 1.4446944444444445
+let lat = 43.6043056
+let long = 1.4446944444444445
+
+if ("geolocation" in navigator) {
+  console.log("yes")
+  navigator.geolocation.getCurrentPosition(function(position) {
+    lat = position.coords.latitude;
+    long = position.coords.longitude;
+  });
+}
+
+console.log(lat, long)
 
 
 var app = new Vue({
@@ -134,7 +144,9 @@ var app = new Vue({
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            fontColor: '#fff',
+                            fontFamily: 'Dosis',
                         },
                         gridLines: {
                             color: "rgba(0, 0, 0, 0)",
@@ -143,15 +155,13 @@ var app = new Vue({
                     xAxes: [{
                         gridLines: {
                             color: "rgba(0, 0, 0, 0)",
+                        },
+                        ticks: {
+                          fontColor: '#fff',
+                          fontFamily: 'Dosis',
                         }
                     }]
                 },
-                padding: {
-                    left: 500,
-                    right: 500,
-                    top: 500,
-                    bottom: 500,
-                }
             }
         });
 
