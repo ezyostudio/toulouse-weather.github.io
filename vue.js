@@ -88,13 +88,18 @@ var app = new Vue({
               day: "2-digit"
             }).replaceAll('.', '');
 
+            const weekday = new Date(day.dt * 1000).toLocaleDateString("fr-FR", {
+              weekday: "short",
+            }).replaceAll('.', '');
+
             return {
               date: date,
               icon: day.weather[0].icon,
               temp: Math.round(day.temp.day),
               minTemp: Math.round(day.temp.min),
               maxTemp: Math.round(day.temp.max),
-              description: this.traduction(day.weather[0].description)
+              description: this.traduction(day.weather[0].description),
+              weekday: weekday
             }
           })
 
@@ -109,6 +114,7 @@ var app = new Vue({
               temp: Math.round(hour.temp)
             }
           })
+
           // Creating the chart
           Chart.defaults.global.legend.display = false;
         var ctx = document.getElementById('myChart');
@@ -168,23 +174,23 @@ var app = new Vue({
 
           console.log(data.daily)
 
-          for (let index = 1; index < 5; index++) {
-            const dailyTemp = Math.round(data.daily[index].temp.day)
+          // for (let index = 1; index < 5; index++) {
+          //   const dailyTemp = Math.round(data.daily[index].temp.day)
 
-            const dailyIcon = data.daily[index].weather[0].icon
-            svgLink = `./weather-vector-icons/${dailyIcon}.svg`
+          //   const dailyIcon = data.daily[index].weather[0].icon
+          //   svgLink = `./weather-vector-icons/${dailyIcon}.svg`
 
-            const date = data.daily[index].dt
-            const dateObject = new Date(date * 1000)
+          //   const date = data.daily[index].dt
+          //   const dateObject = new Date(date * 1000)
 
-            const jour = dateObject.toLocaleDateString("fr-FR", {
-              weekday: "long"
-            })
+          //   const jour = dateObject.toLocaleDateString("fr-FR", {
+          //     weekday: "long"
+          //   })
 
-            document.querySelector(`.forecast${index} img`).src = svgLink
-            document.querySelector(`.date${index} p`).innerHTML = jour[0] + jour[1] + jour[2]
-            document.querySelector(`.forecast-temp${index} p`).innerHTML = dailyTemp + "°"
-          }
+          //   document.querySelector(`.forecast${index} img`).src = svgLink
+          //   document.querySelector(`.date${index} p`).innerHTML = jour[0] + jour[1] + jour[2]
+          //   document.querySelector(`.forecast-temp${index} p`).innerHTML = dailyTemp + "°"
+          // }
 
         })
     },

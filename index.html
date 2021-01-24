@@ -22,33 +22,14 @@
                 <h1 class="current-temp">{{currentTemp}}</h1>
             </div>
             <div class="forecast-weather">
-                <div class="mini day date1">
-                    <p></p>
-                </div>
-                <div class="mini day date2">
-                    <p></p>
-                </div>
-                <div class="mini day date3">
-                    <p></p>
-                </div>
-                <div class="mini day date4">
-                    <p></p>
-                </div>
-                <div class="mini forecast1"><img src="" alt=""></div>
-                <div class="mini forecast2"><img src="" alt=""></div>
-                <div class="mini forecast3"><img src="" alt=""></div>
-                <div class="mini forecast4"><img src="" alt=""></div>
-                <div class="forecast forecast-temp1">
-                    <p></p>
-                </div>
-                <div class="forecast forecast-temp2">
-                    <p></p>
-                </div>
-                <div class="forecast forecast-temp3">
-                    <p></p>
-                </div>
-                <div class="forecast forecast-temp4">
-                    <p></p>
+                <div v-for="day in forecast.slice(0, 4)" :key="day.date">
+                    <div class="mini day">
+                        <p>{{day.weekday}}</p>
+                    </div>
+                    <div class="mini-img"><img :src="'./weather-vector-icons/'+day.icon+'.svg'" alt=""></div>
+                    <div class="forecast">
+                        <p>{{day.temp}}°</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,12 +55,9 @@
                     </div>
                 </div>
 
-        <div class="canvas-size">
-            <canvas id="myChart" width="400" height="400"></canvas>
-        </div>
-
-        
-
+                <div class="canvas-size">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                </div>
 
                 <div class="desktop-forecast-weather">
                     <h3>Cette Semaine:</h3>
