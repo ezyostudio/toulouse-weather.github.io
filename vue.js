@@ -1,6 +1,9 @@
+var coords = {
+  lat: 43.6043056, 
+  long: 1.4446944444444445 
+}
 
-var lat = 43.6043056
-var long = 1.4446944444444445
+console.log(coords)
 
 var app = new Vue({
   el: '#app',
@@ -20,7 +23,18 @@ var app = new Vue({
     hours: [],
   },
   mounted: function () {
-    this.getData()
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function success(pos) {
+          console.log(pos)  
+          coords.lat = pos.coords.latitude
+          coords.long = pos.coords.longitude
+          app.getData()
+      }, function(...arg) {
+        app.getData()
+      }, {enableHighAccuracy: false})
+    }else {
+      this.getData()
+    }
     let self = this;
     window.onresize = () => {
       console.log('resize event');
@@ -33,9 +47,8 @@ var app = new Vue({
     getData: function () {
       key = "2672da1c527db251b61ae4f3986325de"
 
-
-      const current = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${key}`
-      const forecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&appid=${key}`
+      const current = `https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.long}&units=metric&appid=${key}`
+      const forecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.long}&exclude=minutely&units=metric&appid=${key}`
       fetch(current)
         .then(response => {
           return response.json();
@@ -45,8 +58,6 @@ var app = new Vue({
 
           //Get cityname
           this.city = data.name
-          //document.querySelector('.city').innerText = city
-
 
           //Get current temp & weather icon
           const current_temp = Math.round(data.main.temp)
