@@ -18,7 +18,6 @@ var app = new Vue({
     description: "Description",
     forecast: [],
     hours: [],
-    refreshTime:""
   },
   mounted: function () {
     this.getData()
@@ -174,24 +173,7 @@ var app = new Vue({
 
           console.log(data.daily)
 
-          // for (let index = 1; index < 5; index++) {
-          //   const dailyTemp = Math.round(data.daily[index].temp.day)
-
-          //   const dailyIcon = data.daily[index].weather[0].icon
-          //   svgLink = `./weather-vector-icons/${dailyIcon}.svg`
-
-          //   const date = data.daily[index].dt
-          //   const dateObject = new Date(date * 1000)
-
-          //   const jour = dateObject.toLocaleDateString("fr-FR", {
-          //     weekday: "long"
-          //   })
-
-          //   document.querySelector(`.forecast${index} img`).src = svgLink
-          //   document.querySelector(`.date${index} p`).innerHTML = jour[0] + jour[1] + jour[2]
-          //   document.querySelector(`.forecast-temp${index} p`).innerHTML = dailyTemp + "°"
-          // }
-
+          this.refresh()
         })
     },
     background: function (id) {
@@ -245,12 +227,10 @@ var app = new Vue({
         return desc
       }
     },
-    refresh: function () {
-      while (x != 100) {
-        refreshTime=new Date().toLocaleTimeString("fr-FR")
-        setTimeout(1000)
-      }
-      
+    refresh: function() {
+      document.querySelector('.refresh').addEventListener('click', function() {
+        app.getData()
+      })
     },
     resize: (self)=>{
       if (screen.width < 1012) {

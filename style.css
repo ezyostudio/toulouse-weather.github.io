@@ -10,6 +10,11 @@ body {
     transition: all .5s;
 }
 
+.refresh {
+    position: absolute;
+    right: 8%;
+    top: 3%
+}
 
 #mobile {
     width: 100%;
