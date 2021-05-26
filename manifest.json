@@ -1,6 +1,6 @@
 {
-    "name": "Titou dit le temps",
-    "short_name": "Titou Meteo",
+    "name": "Meteo",
+    "short_name": "Meteo",
     "icons": [{
         "src": "./icon/128.png",
           "sizes": "128x128",
